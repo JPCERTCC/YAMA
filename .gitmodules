@@ -1,0 +1,13 @@
+[submodule "dependencies/yara/yara"]
+	path = dependencies/yara/yara
+	url = https://github.com/VirusTotal/yara
+[submodule "dependencies/argparse"]
+	path = dependencies/argparse
+	url = https://github.com/p-ranav/argparse
+[submodule "dependencies/spdlog"]
+	path = dependencies/spdlog
+	url = https://github.com/gabime/spdlog.git
+	branch = v1.x
+[submodule "dependencies/json"]
+	path = dependencies/json
+	url = https://github.com/nlohmann/json

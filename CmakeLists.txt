@@ -1,0 +1,99 @@
+cmake_minimum_required(VERSION 3.21.0)
+
+project(Yama CXX)
+
+cmake_policy(SET CMP0091 NEW)
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
+
+add_definitions(-v) # verbose logs.
+
+# Build libyara
+# =====================================================
+add_subdirectory(dependencies/yara)
+
+# Build spdlog
+# =====================================================
+add_subdirectory(dependencies/spdlog)
+
+# THE LIST OF SORUCE FILES
+# =====================================================
+
+set(hdrs
+    src/memory.hpp
+    src/process.hpp
+    src/thread.hpp
+    src/yaramanager.hpp
+    src/typedef.h
+    src/file.h
+    src/pid.h
+    src/resource.h
+    src/reporter.hpp
+    src/rc4.hpp
+    src/suspicious_process.hpp
+    src/strutils.h
+    src/privilege.h
+    src/etw_provider.h
+    src/scanner_context.hpp
+    src/yamascanner.hpp
+)
+
+set(srcs
+    src/main.cpp
+    src/memory.cpp
+    src/process.cpp
+    src/thread.cpp
+    src/yaramanager.cpp
+    src/file.cpp
+    src/pid.cpp
+    src/resource.cpp
+    src/reporter.cpp
+    src/rc4.cpp
+    src/suspicious_process.cpp
+    src/strutils.cpp
+    src/privilege.cpp
+    src/etw_provider.cpp
+    src/scanner_context.cpp
+    src/yamascanner.cpp
+)
+
+set(rsrc
+    rsrc/resources.rc
+    rsrc/resources.h
+    rsrc/version.h
+)
+
+# Add Yama Executable file to project
+# ==============================================================
+add_executable(Yama ${srcs} ${hdrs} ${rsrc})
+
+# Add 3rd-party libraries to include directories
+# ==============================================================
+target_include_directories(Yama PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/yara/yara/libyara/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/argparse/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/spdlog/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/json/single_include
+)
+
+# Set C++ compiler features to Yama
+# =====================================================
+target_compile_features(Yama PUBLIC cxx_std_17)
+
+# Set compiler options for Yama
+# =====================================================
+target_compile_options(Yama PRIVATE 
+    -DUNICODE
+    -D_CONSOLE
+    -D_MBCS    # support multibyte character set 
+    -D_WINDOWS
+    -D_WIN32
+    -Wall
+    -Wextra
+    -Wno-missing-field-initializers
+    -Wno-trigraphs # suppress warnings caused by yaralib
+    -Wno-unused-parameter  # suppress warnings caused by yaralib
+)
+
+target_link_libraries(Yama
+                      ${CMAKE_CURRENT_SOURCE_DIR}/build/dependencies/yara/libyara.lib
+                      ${CMAKE_CURRENT_SOURCE_DIR}/build/dependencies/spdlog/spdlogd.lib)

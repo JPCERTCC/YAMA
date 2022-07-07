@@ -1,0 +1,11 @@
+#ifndef YAMA_VERSION_H
+#define YAMA_VERSION_H
+
+#define YAMA_MAJOR_VERSION 1
+#define YAMA_MINOR_VERSION 0
+#define YAMA_MICRO_VERSION 0
+#define YAMA_PATCH_VERSION 0
+
+#define YAMA_VERSION_STR   "1.0"
+
+#endif // YAMA_VERSION_H

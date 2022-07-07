@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<instrumentationManifest xsi:schemaLocation="http://schemas.microsoft.com/win/2004/08/events eventman.xsd" xmlns="http://schemas.microsoft.com/win/2004/08/events" xmlns:win="http://manifests.microsoft.com/win/2004/08/windows/events" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:trace="http://schemas.microsoft.com/win/2004/08/events/trace">
+    <instrumentation>
+        <events>
+            <provider name="Yama" guid="{C0F1A27E-AA60-4D7F-8DD0-8272527A7764}" symbol="TheEventLog"
+                      message="$(string.Yama.ProviderMessage)"
+                      resourceFileName="%SystemDrive%\Windows\System32\Yama.Events.dll"
+                      messageFileName="%SystemDrive%\Windows\System32\Yama.Events.dll"
+                      parameterFileName="%SystemDrive%\Windows\System32\Yama.Events.dll">
+                <events>
+                    <event symbol="ProcessStarted" version="0" channel="Application"
+                           value="10" level="win:Informational"
+                           message="$(string.Yama.event.10.message)"/>
+                    <event symbol="ProcessStopped" version="0" channel="Application"
+                           value="11" level="win:Informational"
+                           message="$(string.Yama.event.11.message)"/>
+                    <event symbol="NoDetection" version="0" channel="Application"
+                           value="20" level="win:Informational"
+                           message="$(string.Yama.event.20.message)"/>
+                    <event symbol="DetectsMalware" version="0" channel="Application"
+                           value="40" level="win:Warning"
+                           message="$(string.Yama.event.40.message)"/>
+                    <event symbol="ConfigurationError" version="0" channel="Application"
+                           value="51" level="win:Error" template="ServiceException"
+                           message="$(string.Yama.event.50.message)"/>
+                    <event symbol="ProcessUnhandledException" version="0" channel="Application"
+                           value="52" level="win:Error" template="ServiceException"
+                           message="$(string.Yama.event.51.message)"/>
+
+                </events>
+                <levels/>
+                <channels>
+                    <importChannel name="Application" chid="Application"/>
+                </channels>
+                <templates>
+                    <template tid="ServiceException">
+                        <data name="Exception" inType="win:UnicodeString" outType="xs:string"/>
+                    </template>
+                </templates>
+            </provider>
+        </events>
+    </instrumentation>
+    <localization>
+        <resources culture="en-US">
+            <stringTable>
+                <string id="level.Informational" value="Information"/>
+                <string id="level.Error" value="Error"/>
+                <string id="channel.Application" value="Application"/>
+                <string id="Yama.ProviderMessage"
+                        value="Yama"/>
+                <string id="Yama.event.10.message"
+                        value="Yama has started."/>
+                <string id="Yama.event.11.message"
+                        value="Yama has stopped."/>
+                <string id="Yama.event.20.message"
+                        value="No detection"/>
+                <string id="Yama.event.40.message"
+                        value="Malware was detected."/>
+                <string id="Yama.event.50.message"
+                        value="Yama encountered a problem with its configuration. Please fix these issues and start the process again.:%n%n%1"/>
+                <string id="Yama.event.51.message"
+                        value="Yama encountered an unhandled exception:%n%n%1"/>
+
+            </stringTable>
+        </resources>
+        <resources culture="ja-JP">
+            <stringTable>
+                <string id="level.Informational" value="Information"/>
+                <string id="level.Error" value="Error"/>
+                <string id="channel.Application" value="Application"/>
+                <string id="Yama.ProviderMessage"
+                        value="Yama"/>
+                <string id="Yama.event.10.message"
+                        value="Yamaが開始されました。"/>
+                <string id="Yama.event.11.message"
+                        value="Yamaが終了しました。"/>
+                <string id="Yama.event.20.message"
+                        value="Malwareは検知されませんでした。"/>
+                <string id="Yama.event.40.message"
+                        value="Malwareのプロセスが検知されました。"/>
+                <string id="Yama.event.50.message"
+                        value="Yamaの設定に不備があります。設定ファイルを修正の上、再度プロセスを実行してください:%n%n%1"/>
+                <string id="Yama.event.51.message"
+                        value="Yamaで予期しないエラーが発生しました。:%n%n%1"/>
+            </stringTable>
+        </resources>
+    </localization>
+</instrumentationManifest>
