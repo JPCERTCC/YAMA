@@ -1,3 +1,3 @@
 cd build
-ninja -v
+ninja -v > yama-ninja.log
 cd ..\

@@ -10,13 +10,6 @@ python utils\arc4.py -f .\rsrc\ioc\rule.yara
 
 set /p DECRYPT_KEY=<.\rsrc\ioc\rule.yara.key
 
-
-@REM Build Manifest for Windows Event Logging
-
-cd rsrc\eventlog
-CALL .\build.bat
-cd ..\..\
-
 @REM Initialize build derectory
 
 mkdir build
@@ -33,6 +26,5 @@ cmake -DDECRYPT_KEY=%DECRYPT_KEY% ^
       -DCMAKE_RC_COMPILER="C:/Program Files/LLVM/bin/llvm-rc.exe" ^
       -DCMAKE_BUILD_TYPE=Release ^
       -G Ninja ..
-
-ninja > yama-ninja.log
+ninja -v > yama-ninja.log
 cd ..\

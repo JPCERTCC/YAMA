@@ -14,6 +14,8 @@
 #include "yaramanager.hpp"
 #include "yamascanner.hpp"
 
+const char* version = "1.0";
+
 const char* banner = " __  _____   __  ______\n" 
                      " \\ \\/ / _ | /  |/  / _ |\n"
                      "  \\  / __ |/ /|_/ / __ |\n"
@@ -24,8 +26,15 @@ int main(int argc, char* argv[]) {
     int verbosity = 0;
 
     // construct argument parser
-    argparse::ArgumentParser program("yama.exe", "1.0");
+    argparse::ArgumentParser program("yama.exe", version,  argparse::default_arguments::help);
     // program.add_description(banner);
+    program.add_argument("-V", "--version").action([&](const auto &) {
+          std::cout << version;
+          std::exit(0);
+        }).default_value(false)
+        .help("prints version information and exits")
+        .implicit_value(true)
+        .nargs(0);
     program.add_argument("-p", "--pid").help("PID to scan (required if not using --all)").scan<'u', unsigned int>();
     program.add_argument("-a", "--all").default_value(false).help("Scan all processes (required if not using --pid)").nargs(0);
     program.add_argument("-o", "--output").default_value(std::string("./")).help("Specify output directory").nargs(1);

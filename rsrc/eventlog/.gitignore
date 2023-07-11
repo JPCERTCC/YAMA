@@ -1,5 +1,5 @@
 *.lib
-*.dll
+# *.dll
 *.rc
 *.res
 *.bin

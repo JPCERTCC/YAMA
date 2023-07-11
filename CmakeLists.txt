@@ -7,14 +7,6 @@ set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
 
 add_definitions(-v) # verbose logs.
 
-# Build libyara
-# =====================================================
-add_subdirectory(dependencies/yara)
-
-# Build spdlog
-# =====================================================
-add_subdirectory(dependencies/spdlog)
-
 # THE LIST OF SORUCE FILES
 # =====================================================
 
@@ -62,12 +54,20 @@ set(rsrc
     rsrc/version.h
 )
 
-# Add Yama Executable file to project
-# ==============================================================
+# Add Yama to build targets
+# =====================================================
 add_executable(Yama ${srcs} ${hdrs} ${rsrc})
 
+# Add libyara to build targets
+# =====================================================
+add_subdirectory(dependencies/yara)
+
+# Add spdlog::spdlog to build targets
+# =====================================================
+add_subdirectory(dependencies/spdlog)
+
 # Add 3rd-party libraries to include directories
-# ==============================================================
+# =====================================================
 target_include_directories(Yama PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/yara/yara/libyara/include
     ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/argparse/include
@@ -93,7 +93,14 @@ target_compile_options(Yama PRIVATE
     -Wno-trigraphs # suppress warnings caused by yaralib
     -Wno-unused-parameter  # suppress warnings caused by yaralib
 )
+# Set compiler definitions to pass decrypt key to compiler preprocessor
+# =====================================================================
+if (DEFINED DECRYPT_KEY)
+    target_compile_definitions(Yama PRIVATE DECRYPT_KEY="${DECRYPT_KEY}")
+else()
+    target_compile_definitions(Yama PRIVATE DECRYPT_KEY="YetAnotherMemoryAnalyzer")
+endif()
 
 target_link_libraries(Yama
-                      ${CMAKE_CURRENT_SOURCE_DIR}/build/dependencies/yara/libyara.lib
-                      ${CMAKE_CURRENT_SOURCE_DIR}/build/dependencies/spdlog/spdlogd.lib)
+                      libyara
+                      spdlog::spdlog)

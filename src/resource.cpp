@@ -1,5 +1,10 @@
 #include "resource.h"
 
+// Default key for YARA resource
+#ifndef DECRYPT_KEY
+#define DECRYPT_KEY "YetAnotherMemoryAnalyzer"
+#endif
+
 namespace yama {
 
 DWORD GetFileResource(_In_ HMODULE hModule, _In_ LPCWSTR lpcwResourceName, _Out_ LPVOID* lpBuffer) {
@@ -61,10 +66,11 @@ const char* LoadYaraRuleFromResource() {
 
     // decrypted resource buffer
     char* lpDecryptedBuffer = (char*)calloc(1, dwSize + 1);
-    unsigned char key[24] = {'Y','e','t','A','n','o','t','h','e','r','M','e','m','o','r','y','A','n','a','l','y','z','e','r'};
+    char key[] = DECRYPT_KEY;
+    //printf("key: %s\nkey len %d",key,strlen(key));
 
     RC4 rc4;
-    rc4.setKey(key, 24);
+    rc4.setKey(reinterpret_cast<unsigned char*>(key), strlen(key));
     rc4.crypt((char*)lpBuffer, lpDecryptedBuffer, dwSize);
     return reinterpret_cast<const char*>(lpDecryptedBuffer);
 }
