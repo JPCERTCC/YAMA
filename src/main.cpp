@@ -39,6 +39,10 @@ int main(int argc, char* argv[]) {
     program.add_argument("-a", "--all").default_value(false).help("Scan all processes (required if not using --pid)").nargs(0);
     program.add_argument("-o", "--output").default_value(std::string("./")).help("Specify output directory").nargs(1);
     program.add_argument("-j", "--json").default_value(false).help("Export json report to the output directory").nargs(0);
+    program.add_argument("-e", "--evtx")
+        .default_value(false)
+        .help("Install YAMA EventLog manifest.")
+        .nargs(0);
     program.add_argument("-u", "--uninstall")
         .default_value(false)
         .help("Uninstall YAMA EventLog manifest. (only do uninstall operaiton)")
@@ -119,13 +123,20 @@ int main(int argc, char* argv[]) {
         isJson = true;    // output format is json style
     }
 
+    // Check Invalid option combination
+    if (program.is_used("-e") && program.is_used("-u")){
+        LOGWARN("Invalid Option combination. --evtx and --uninstall can not use together.");
+        return 0;
+    }
+
     // Set scanner context
     yama::ScannerContext* context = new yama::ScannerContext();
 
     // Install Eventlog manifest
-    if (context->isAdministrator && !program.is_used("-u") && !context->canRecordEventlog) {
+    if (context->isAdministrator && program.is_used("-e") && !context->canRecordEventlog) {
         if (context->InstallEventlogManifest()) {
             LOGINFO("Install Windows Event Log manifest.");
+            context->canRecordEventlog = true;
         } else {
             LOGWARN("Failed to install  Windows Event Log manifest.");
         }
@@ -134,13 +145,13 @@ int main(int argc, char* argv[]) {
     // Uninstall Eventlog manifest
     if (program.is_used("-u")) {
         if (!context->isAdministrator) {
-            LOGWARN("uninstall eventlog manifest requires administrative rights.");
+            LOGWARN("Uninstall eventlog manifest requires administrative rights.");
         } else {
             if (context->UninstallEventlogManifest()) {
-                LOGINFO("uninstalled eventlog manifest.");
+                LOGINFO("Uninstalled eventlog manifest.");
                 return 0;
             } else {
-                LOGWARN("failed to uninstall manifest.");
+                LOGWARN("Failed to uninstall Eventlog manifest. Close EventLog Viwer before uninstalling Eventlog manifest.");
                 return 1;
             }
         }
@@ -153,7 +164,10 @@ int main(int argc, char* argv[]) {
     }
 
     // register eventlog
-    if (context->canRecordEventlog) { EventRegisterYama(); }
+    if (context->canRecordEventlog) { 
+        LOGTRACE("Enabled Eventlog logging.");
+        EventRegisterYama(); 
+    }
 
     std::vector<DWORD> vPids;
 
