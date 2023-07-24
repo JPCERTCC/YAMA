@@ -75,9 +75,9 @@
                 <string id="Yama.event.11.message"
                         value="Yamaが終了しました。"/>
                 <string id="Yama.event.20.message"
-                        value="Malwareは検知されませんでした。"/>
+                        value="マルウェアは検知されませんでした。"/>
                 <string id="Yama.event.40.message"
-                        value="Malwareのプロセスが検知されました。"/>
+                        value="マルウェアを含むプロセスが検知されました。"/>
                 <string id="Yama.event.50.message"
                         value="Yamaの設定に不備があります。設定ファイルを修正の上、再度プロセスを実行してください:%n%n%1"/>
                 <string id="Yama.event.51.message"
