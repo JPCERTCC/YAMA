@@ -86,7 +86,7 @@ bool ScannerContext::InstallEventlogManifest() {
         DWORD dwSize = 0;
         ExpandEnvironmentStringsW(this->lpcwManifestDllPath, lpwDllPath, MAX_PATH);
         dwSize = ExportFileResource(GetModuleHandleW(NULL), MAKEINTRESOURCE(IDR_FILE1),
-                                    lpwDllPath);  // WinMemScan.event.dll
+                                    lpwDllPath);  // Yama.event.dll
         if (dwSize > 0) {
             // success
             this->haveEvenlogManifestDll = true;
@@ -110,17 +110,17 @@ bool ScannerContext::InstallEventlogManifest() {
 
         DWORD dwSize = 0;
         dwSize = ExportFileResource(GetModuleHandleW(NULL), MAKEINTRESOURCE(IDR_FILE2),
-                                    lpwTempPath);  // WinMemScan.event.man
+                                    lpwTempPath);  // Yama.event.man
         if (dwSize > 0) {
             // success
             DWORD dwCommandLength = 30 + wcslen(lpwTempPath);
             LPWSTR lpwCommandLine = (LPWSTR)calloc(dwCommandLength + 1, sizeof(wchar_t));
             wsprintf(lpwCommandLine, this->lpcwManifestImportCmd, lpwTempPath);
-            _wsystem(lpwCommandLine);  // wevtutil im WinMemScan.event.man
+            _wsystem(lpwCommandLine);  // wevtutil im Yama.event.man
             // remove temp file
             DeleteFileW(lpwTempPath);
         } else {
-            // Failed to export WinMemScan.event.man from resource section.
+            // Failed to export Yama.event.man from resource section.
             return false;
         }
         // Check Etw Providers once again.
@@ -163,17 +163,17 @@ bool ScannerContext::UninstallEventlogManifest() {
 
         DWORD dwSize = 0;
         dwSize = ExportFileResource(GetModuleHandleW(NULL), MAKEINTRESOURCE(IDR_FILE2),
-                                    lpwTempPath);  // WinMemScan.event.man
+                                    lpwTempPath);  // Yama.event.man
         if (dwSize > 0) {
             // success
             DWORD dwCommandLength = 30 + wcslen(lpwTempPath);
             LPWSTR lpwCommandLine = (LPWSTR)calloc(dwCommandLength + 1, sizeof(wchar_t));
             wsprintf(lpwCommandLine, this->lpcwManifestUnloadCmd, lpwTempPath);
-            _wsystem(lpwCommandLine);  // wevtutil um WinMemScan.event.man
+            _wsystem(lpwCommandLine);  // wevtutil um Yama.event.man
             // remove temp file
             DeleteFileW(lpwTempPath);
         } else {
-            // Failed to export WinMemScan.event.man from resource section.
+            // Failed to export Yama.event.man from resource section.
             return false;
         }
         // Check Etw Providers once again.

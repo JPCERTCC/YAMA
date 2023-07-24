@@ -38,7 +38,7 @@ class ScannerContext {
     bool UninstallEventlogManifest();
 
    private:
-    const wchar_t* lpcwManifestDllPath = L"%SystemDrive%\\Windows\\System32\\WinMemScan.Events.dll";
+    const wchar_t* lpcwManifestDllPath = L"%SystemDrive%\\Windows\\System32\\Yama.Events.dll";
     const wchar_t* lpcwManifestImportCmd = L"cmd.exe /c \"wevtutil im %ws\"";
     const wchar_t* lpcwManifestUnloadCmd = L"cmd.exe /c \"wevtutil um %ws\"";
     bool CheckEventlogManifest();

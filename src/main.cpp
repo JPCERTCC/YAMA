@@ -137,7 +137,7 @@ int main(int argc, char* argv[]) {
             LOGWARN("uninstall eventlog manifest requires administrative rights.");
         } else {
             if (context->UninstallEventlogManifest()) {
-                LOGWARN("uninstall eventlog manifest.");
+                LOGINFO("uninstalled eventlog manifest.");
                 return 0;
             } else {
                 LOGWARN("failed to uninstall manifest.");
