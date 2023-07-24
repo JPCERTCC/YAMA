@@ -32,8 +32,6 @@ class ScannerContext {
 
     ScannerContext();
     bool EnableEventlogRecording();
-    void SetOutputDirectory(LPCWSTR lpcwDirctoryPath);
-    void SetOutputPath();
     bool InstallEventlogManifest();
     bool UninstallEventlogManifest();
 

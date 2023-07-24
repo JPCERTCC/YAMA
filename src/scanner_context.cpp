@@ -44,9 +44,13 @@ ScannerContext::ScannerContext() {
     }
 
     // Check eventlog manifest.
+    LOGTRACE("Check Eventlog Manifest DLL Path.");
+
     this->haveEvenlogManifestDll = PathExistsW(this->lpcwManifestDllPath);
     // Check ETW providers.
+    LOGTRACE("Check ETW providers.");
     this->isEtwProviderValid = IsGuidInEtwProviders(TheEventLog);
+    
     // Set eventlog recording status.
     this->EnableEventlogRecording();
 }
@@ -59,10 +63,6 @@ bool ScannerContext::EnableEventlogRecording() {
     }
     return this->canRecordEventlog;
 }
-
-void ScannerContext::SetOutputDirectory(LPCWSTR lpcwDirctoryPath) {}
-
-void ScannerContext::SetOutputPath() {}
 
 bool ScannerContext::CheckEventlogManifest() {
     // TBD: implement if we need more strict checks.
@@ -89,6 +89,7 @@ bool ScannerContext::InstallEventlogManifest() {
                                     lpwDllPath);  // Yama.event.dll
         if (dwSize > 0) {
             // success
+            LOGTRACE("Write EventLog Manifest DLL to SYSTEM32 folder.");
             this->haveEvenlogManifestDll = true;
         } else {
             // failed
@@ -119,6 +120,7 @@ bool ScannerContext::InstallEventlogManifest() {
             _wsystem(lpwCommandLine);  // wevtutil im Yama.event.man
             // remove temp file
             DeleteFileW(lpwTempPath);
+            LOGTRACE("Imported Eventlog manifest file.");
         } else {
             // Failed to export Yama.event.man from resource section.
             return false;
@@ -127,6 +129,7 @@ bool ScannerContext::InstallEventlogManifest() {
         this->isEtwProviderValid = IsGuidInEtwProviders(TheEventLog);
     }
     if (this->isEtwProviderValid) {
+        LOGTRACE("Found GUID for YAMA eventlog in EtwProviders.");
         return true;
     }
     return false;
@@ -135,6 +138,7 @@ bool ScannerContext::InstallEventlogManifest() {
 bool ScannerContext::UninstallEventlogManifest() {
     if (!this->isAdministrator) {
         // Uninstall eventlog manifest requires administrative rights.
+        LOGWARN("Failed to uninstall EventLogManifest. Retry with administrator user.");
         return false;
     }
 
@@ -145,6 +149,7 @@ bool ScannerContext::UninstallEventlogManifest() {
         ExpandEnvironmentStringsW(this->lpcwManifestDllPath, lpwDllPath, MAX_PATH);
         if (!DeleteFileW(lpwDllPath)) {
             // Failed to remove manifest dll
+            LOGWARN("Failed to remove manifest DLL from SYSTEM folder.");
             return false;
         }
         this->haveEvenlogManifestDll = false;
