@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.21.0)
 
-project(Yama CXX)
+project(yama CXX)
 
 cmake_policy(SET CMP0091 NEW)
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
@@ -56,7 +56,7 @@ set(rsrc
 
 # Add Yama to build targets
 # =====================================================
-add_executable(Yama ${srcs} ${hdrs} ${rsrc})
+add_executable(yama ${srcs} ${hdrs} ${rsrc})
 
 # Add libyara to build targets
 # =====================================================
@@ -68,7 +68,7 @@ add_subdirectory(dependencies/spdlog)
 
 # Add 3rd-party libraries to include directories
 # =====================================================
-target_include_directories(Yama PUBLIC
+target_include_directories(yama PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/yara/yara/libyara/include
     ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/argparse/include
     ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/spdlog/include
@@ -77,11 +77,11 @@ target_include_directories(Yama PUBLIC
 
 # Set C++ compiler features to Yama
 # =====================================================
-target_compile_features(Yama PUBLIC cxx_std_17)
+target_compile_features(yama PUBLIC cxx_std_17)
 
 # Set compiler options for Yama
 # =====================================================
-target_compile_options(Yama PRIVATE 
+target_compile_options(yama PRIVATE 
     -DUNICODE
     -D_CONSOLE
     -D_MBCS    # support multibyte character set 
@@ -96,11 +96,11 @@ target_compile_options(Yama PRIVATE
 # Set compiler definitions to pass decrypt key to compiler preprocessor
 # =====================================================================
 if (DEFINED DECRYPT_KEY)
-    target_compile_definitions(Yama PRIVATE DECRYPT_KEY="${DECRYPT_KEY}")
+    target_compile_definitions(yama PRIVATE DECRYPT_KEY="${DECRYPT_KEY}")
 else()
-    target_compile_definitions(Yama PRIVATE DECRYPT_KEY="YetAnotherMemoryAnalyzer")
+    target_compile_definitions(yama PRIVATE DECRYPT_KEY="YetAnotherMemoryAnalyzer")
 endif()
 
-target_link_libraries(Yama
+target_link_libraries(yama
                       libyara
                       spdlog::spdlog)

@@ -2,7 +2,7 @@
 <instrumentationManifest xsi:schemaLocation="http://schemas.microsoft.com/win/2004/08/events eventman.xsd" xmlns="http://schemas.microsoft.com/win/2004/08/events" xmlns:win="http://manifests.microsoft.com/win/2004/08/windows/events" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:trace="http://schemas.microsoft.com/win/2004/08/events/trace">
     <instrumentation>
         <events>
-            <provider name="Yama" guid="{C0F1A27E-AA60-4D7F-8DD0-8272527A7764}" symbol="TheEventLog"
+            <provider name="YAMA" guid="{C0F1A27E-AA60-4D7F-8DD0-8272527A7764}" symbol="TheEventLog"
                       message="$(string.Yama.ProviderMessage)"
                       resourceFileName="%SystemDrive%\Windows\System32\Yama.Events.dll"
                       messageFileName="%SystemDrive%\Windows\System32\Yama.Events.dll"
@@ -47,19 +47,19 @@
                 <string id="level.Error" value="Error"/>
                 <string id="channel.Application" value="Application"/>
                 <string id="Yama.ProviderMessage"
-                        value="Yama"/>
+                        value="YAMA"/>
                 <string id="Yama.event.10.message"
-                        value="Yama has started."/>
+                        value="YAMA has started."/>
                 <string id="Yama.event.11.message"
-                        value="Yama has stopped."/>
+                        value="YAMA has stopped."/>
                 <string id="Yama.event.20.message"
                         value="No detection"/>
                 <string id="Yama.event.40.message"
                         value="Malware was detected."/>
                 <string id="Yama.event.50.message"
-                        value="Yama encountered a problem with its configuration. Please fix these issues and start the process again.:%n%n%1"/>
+                        value="YAMA encountered a problem with its configuration. Please fix these issues and start the process again.:%n%n%1"/>
                 <string id="Yama.event.51.message"
-                        value="Yama encountered an unhandled exception:%n%n%1"/>
+                        value="YAMA encountered an unhandled exception:%n%n%1"/>
 
             </stringTable>
         </resources>
@@ -71,17 +71,17 @@
                 <string id="Yama.ProviderMessage"
                         value="Yama"/>
                 <string id="Yama.event.10.message"
-                        value="Yamaが開始されました。"/>
+                        value="YAMAが開始されました。"/>
                 <string id="Yama.event.11.message"
-                        value="Yamaが終了しました。"/>
+                        value="YAMAが終了しました。"/>
                 <string id="Yama.event.20.message"
                         value="マルウェアは検知されませんでした。"/>
                 <string id="Yama.event.40.message"
                         value="マルウェアを含むプロセスが検知されました。"/>
                 <string id="Yama.event.50.message"
-                        value="Yamaの設定に不備があります。設定ファイルを修正の上、再度プロセスを実行してください:%n%n%1"/>
+                        value="YAMAの設定に不備があります。設定ファイルを修正の上、再度プロセスを実行してください:%n%n%1"/>
                 <string id="Yama.event.51.message"
-                        value="Yamaで予期しないエラーが発生しました。:%n%n%1"/>
+                        value="YAMAで予期しないエラーが発生しました。:%n%n%1"/>
             </stringTable>
         </resources>
     </localization>

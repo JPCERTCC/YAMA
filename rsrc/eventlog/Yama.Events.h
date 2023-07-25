@@ -659,7 +659,7 @@ Remarks:
 #endif // MCGEN_DISABLE_PROVIDER_CODE_GENERATION
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// Provider "Yama" event count 6
+// Provider "YAMA" event count 6
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 // Provider GUID = c0f1a27e-aa60-4d7f-8dd0-8272527a7764
@@ -701,19 +701,19 @@ EXTERN_C __declspec(selectany) const EVENT_DESCRIPTOR ProcessUnhandledException 
 // Event Enablement Bits
 // These variables are for use by MC-generated code and should not be used directly.
 //
-EXTERN_C __declspec(selectany) DECLSPEC_CACHEALIGN ULONG YamaEnableBits[1];
-EXTERN_C __declspec(selectany) const ULONGLONG YamaKeywords[3] = {0x8000000000000000, 0x8000000000000000, 0x8000000000000000};
-EXTERN_C __declspec(selectany) const unsigned char YamaLevels[3] = {4, 3, 2};
+EXTERN_C __declspec(selectany) DECLSPEC_CACHEALIGN ULONG YAMAEnableBits[1];
+EXTERN_C __declspec(selectany) const ULONGLONG YAMAKeywords[3] = {0x8000000000000000, 0x8000000000000000, 0x8000000000000000};
+EXTERN_C __declspec(selectany) const unsigned char YAMALevels[3] = {4, 3, 2};
 
 //
 // Provider context
 //
-EXTERN_C __declspec(selectany) MCGEN_TRACE_CONTEXT TheEventLog_Context = {0, (ULONG_PTR)TheEventLog_Traits, 0, 0, 0, 0, 0, 0, 3, YamaEnableBits, YamaKeywords, YamaLevels};
+EXTERN_C __declspec(selectany) MCGEN_TRACE_CONTEXT TheEventLog_Context = {0, (ULONG_PTR)TheEventLog_Traits, 0, 0, 0, 0, 0, 0, 3, YAMAEnableBits, YAMAKeywords, YAMALevels};
 
 //
 // Provider REGHANDLE
 //
-#define YamaHandle (TheEventLog_Context.RegistrationHandle)
+#define YAMAHandle (TheEventLog_Context.RegistrationHandle)
 
 //
 // This macro is set to 0, indicating that the EventWrite[Name] macros do not
@@ -730,16 +730,16 @@ EXTERN_C __declspec(selectany) MCGEN_TRACE_CONTEXT TheEventLog_Context = {0, (UL
 // returns an error, it is generally safe to use EventWrite and
 // EventUnregister macros (they will be no-ops if EventRegister failed).
 //
-#ifndef EventRegisterYama
-#define EventRegisterYama() McGenEventRegister(&TheEventLog, McGenControlCallbackV2, &TheEventLog_Context, &YamaHandle)
+#ifndef EventRegisterYAMA
+#define EventRegisterYAMA() McGenEventRegister(&TheEventLog, McGenControlCallbackV2, &TheEventLog_Context, &YAMAHandle)
 #endif
 
 //
 // Register with ETW using a specific control GUID (i.e. a GUID other than what
 // is specified in the manifest). Advanced scenarios only.
 //
-#ifndef EventRegisterByGuidYama
-#define EventRegisterByGuidYama(Guid) McGenEventRegister(&(Guid), McGenControlCallbackV2, &TheEventLog_Context, &YamaHandle)
+#ifndef EventRegisterByGuidYAMA
+#define EventRegisterByGuidYAMA(Guid) McGenEventRegister(&(Guid), McGenControlCallbackV2, &TheEventLog_Context, &YAMAHandle)
 #endif
 
 //
@@ -750,8 +750,8 @@ EXTERN_C __declspec(selectany) MCGEN_TRACE_CONTEXT TheEventLog_Context = {0, (UL
 // (not optional): failure to unregister a provider before DLL or driver unload
 // will result in crashes.
 //
-#ifndef EventUnregisterYama
-#define EventUnregisterYama() McGenEventUnregister(&YamaHandle)
+#ifndef EventUnregisterYAMA
+#define EventUnregisterYAMA() McGenEventUnregister(&YAMAHandle)
 #endif
 
 //
@@ -769,44 +769,44 @@ EXTERN_C __declspec(selectany) MCGEN_TRACE_CONTEXT TheEventLog_Context = {0, (UL
 //
 // - Caller enables the feature before including this header, e.g.
 //   #define MCGEN_ENABLE_FORCONTEXT_CODE_GENERATION 1
-// - Caller allocates memory, e.g. pContext = malloc(sizeof(McGenContext_Yama));
-// - Caller registers the provider, e.g. EventRegisterYama_ForContext(pContext);
+// - Caller allocates memory, e.g. pContext = malloc(sizeof(McGenContext_YAMA));
+// - Caller registers the provider, e.g. EventRegisterYAMA_ForContext(pContext);
 // - Caller writes events, e.g. EventWriteMyEvent_ForContext(pContext, ...);
-// - Caller unregisters, e.g. EventUnregisterYama_ForContext(pContext);
+// - Caller unregisters, e.g. EventUnregisterYAMA_ForContext(pContext);
 // - Caller frees memory, e.g. free(pContext);
 //
 
-typedef struct tagMcGenContext_Yama {
+typedef struct tagMcGenContext_YAMA {
     // The fields of this structure are subject to change and should
     // not be accessed directly. To access the provider's REGHANDLE,
-    // use YamaHandle_ForContext(pContext).
+    // use YAMAHandle_ForContext(pContext).
     MCGEN_TRACE_CONTEXT Context;
     ULONG EnableBits[1];
-} McGenContext_Yama;
+} McGenContext_YAMA;
 
-#define EventRegisterYama_ForContext(pContext)             _mcgen_PASTE2(_mcgen_RegisterForContext_Yama_, MCGEN_EVENTREGISTER)(&TheEventLog, pContext)
-#define EventRegisterByGuidYama_ForContext(Guid, pContext) _mcgen_PASTE2(_mcgen_RegisterForContext_Yama_, MCGEN_EVENTREGISTER)(&(Guid), pContext)
-#define EventUnregisterYama_ForContext(pContext)           McGenEventUnregister(&(pContext)->Context.RegistrationHandle)
+#define EventRegisterYAMA_ForContext(pContext)             _mcgen_PASTE2(_mcgen_RegisterForContext_YAMA_, MCGEN_EVENTREGISTER)(&TheEventLog, pContext)
+#define EventRegisterByGuidYAMA_ForContext(Guid, pContext) _mcgen_PASTE2(_mcgen_RegisterForContext_YAMA_, MCGEN_EVENTREGISTER)(&(Guid), pContext)
+#define EventUnregisterYAMA_ForContext(pContext)           McGenEventUnregister(&(pContext)->Context.RegistrationHandle)
 
 //
 // Provider REGHANDLE for caller-allocated context.
 //
-#define YamaHandle_ForContext(pContext) ((pContext)->Context.RegistrationHandle)
+#define YAMAHandle_ForContext(pContext) ((pContext)->Context.RegistrationHandle)
 
 // This function is for use by MC-generated code and should not be used directly.
 // Initialize and register the caller-allocated context.
 __inline
 ULONG __stdcall
-_mcgen_PASTE2(_mcgen_RegisterForContext_Yama_, MCGEN_EVENTREGISTER)(
+_mcgen_PASTE2(_mcgen_RegisterForContext_YAMA_, MCGEN_EVENTREGISTER)(
     _In_ LPCGUID pProviderId,
-    _Out_ McGenContext_Yama* pContext)
+    _Out_ McGenContext_YAMA* pContext)
 {
     RtlZeroMemory(pContext, sizeof(*pContext));
     pContext->Context.Logger = (ULONG_PTR)TheEventLog_Traits;
     pContext->Context.EnableBitsCount = 3;
     pContext->Context.EnableBitMask = pContext->EnableBits;
-    pContext->Context.EnableKeyWords = YamaKeywords;
-    pContext->Context.EnableLevel = YamaLevels;
+    pContext->Context.EnableKeyWords = YAMAKeywords;
+    pContext->Context.EnableLevel = YAMALevels;
     return McGenEventRegister(
         pProviderId,
         McGenControlCallbackV2,
@@ -817,8 +817,8 @@ _mcgen_PASTE2(_mcgen_RegisterForContext_Yama_, MCGEN_EVENTREGISTER)(
 // This function is for use by MC-generated code and should not be used directly.
 // Trigger a compile error if called with the wrong parameter type.
 FORCEINLINE
-_Ret_ McGenContext_Yama*
-_mcgen_CheckContextType_Yama(_In_ McGenContext_Yama* pContext)
+_Ret_ McGenContext_YAMA*
+_mcgen_CheckContextType_YAMA(_In_ McGenContext_YAMA* pContext)
 {
     return pContext;
 }
@@ -828,8 +828,8 @@ _mcgen_CheckContextType_Yama(_In_ McGenContext_Yama* pContext)
 //
 // Enablement check macro for event "ProcessStarted"
 //
-#define EventEnabledProcessStarted() _mcgen_EVENT_BIT_SET(YamaEnableBits, 0)
-#define EventEnabledProcessStarted_ForContext(pContext) _mcgen_EVENT_BIT_SET(_mcgen_CheckContextType_Yama(pContext)->EnableBits, 0)
+#define EventEnabledProcessStarted() _mcgen_EVENT_BIT_SET(YAMAEnableBits, 0)
+#define EventEnabledProcessStarted_ForContext(pContext) _mcgen_EVENT_BIT_SET(_mcgen_CheckContextType_YAMA(pContext)->EnableBits, 0)
 
 //
 // Event write macros for event "ProcessStarted"
@@ -843,7 +843,7 @@ _mcgen_CheckContextType_Yama(_In_ McGenContext_Yama* pContext)
         MCGEN_EVENT_ENABLED_FORCONTEXT(pContext, ProcessStarted) \
         ? _mcgen_TEMPLATE_FOR_ProcessStarted(&(pContext)->Context, &ProcessStarted) : 0
 #define EventWriteProcessStarted_ForContextAssumeEnabled(pContext) \
-        _mcgen_TEMPLATE_FOR_ProcessStarted(&_mcgen_CheckContextType_Yama(pContext)->Context, &ProcessStarted)
+        _mcgen_TEMPLATE_FOR_ProcessStarted(&_mcgen_CheckContextType_YAMA(pContext)->Context, &ProcessStarted)
 
 // This macro is for use by MC-generated code and should not be used directly.
 #define _mcgen_TEMPLATE_FOR_ProcessStarted _mcgen_PASTE2(McTemplateU0_, MCGEN_EVENTWRITETRANSFER)
@@ -851,8 +851,8 @@ _mcgen_CheckContextType_Yama(_In_ McGenContext_Yama* pContext)
 //
 // Enablement check macro for event "ProcessStopped"
 //
-#define EventEnabledProcessStopped() _mcgen_EVENT_BIT_SET(YamaEnableBits, 0)
-#define EventEnabledProcessStopped_ForContext(pContext) _mcgen_EVENT_BIT_SET(_mcgen_CheckContextType_Yama(pContext)->EnableBits, 0)
+#define EventEnabledProcessStopped() _mcgen_EVENT_BIT_SET(YAMAEnableBits, 0)
+#define EventEnabledProcessStopped_ForContext(pContext) _mcgen_EVENT_BIT_SET(_mcgen_CheckContextType_YAMA(pContext)->EnableBits, 0)
 
 //
 // Event write macros for event "ProcessStopped"
@@ -866,7 +866,7 @@ _mcgen_CheckContextType_Yama(_In_ McGenContext_Yama* pContext)
         MCGEN_EVENT_ENABLED_FORCONTEXT(pContext, ProcessStopped) \
         ? _mcgen_TEMPLATE_FOR_ProcessStopped(&(pContext)->Context, &ProcessStopped) : 0
 #define EventWriteProcessStopped_ForContextAssumeEnabled(pContext) \
-        _mcgen_TEMPLATE_FOR_ProcessStopped(&_mcgen_CheckContextType_Yama(pContext)->Context, &ProcessStopped)
+        _mcgen_TEMPLATE_FOR_ProcessStopped(&_mcgen_CheckContextType_YAMA(pContext)->Context, &ProcessStopped)
 
 // This macro is for use by MC-generated code and should not be used directly.
 #define _mcgen_TEMPLATE_FOR_ProcessStopped _mcgen_PASTE2(McTemplateU0_, MCGEN_EVENTWRITETRANSFER)
@@ -874,8 +874,8 @@ _mcgen_CheckContextType_Yama(_In_ McGenContext_Yama* pContext)
 //
 // Enablement check macro for event "NoDetection"
 //
-#define EventEnabledNoDetection() _mcgen_EVENT_BIT_SET(YamaEnableBits, 0)
-#define EventEnabledNoDetection_ForContext(pContext) _mcgen_EVENT_BIT_SET(_mcgen_CheckContextType_Yama(pContext)->EnableBits, 0)
+#define EventEnabledNoDetection() _mcgen_EVENT_BIT_SET(YAMAEnableBits, 0)
+#define EventEnabledNoDetection_ForContext(pContext) _mcgen_EVENT_BIT_SET(_mcgen_CheckContextType_YAMA(pContext)->EnableBits, 0)
 
 //
 // Event write macros for event "NoDetection"
@@ -889,7 +889,7 @@ _mcgen_CheckContextType_Yama(_In_ McGenContext_Yama* pContext)
         MCGEN_EVENT_ENABLED_FORCONTEXT(pContext, NoDetection) \
         ? _mcgen_TEMPLATE_FOR_NoDetection(&(pContext)->Context, &NoDetection) : 0
 #define EventWriteNoDetection_ForContextAssumeEnabled(pContext) \
-        _mcgen_TEMPLATE_FOR_NoDetection(&_mcgen_CheckContextType_Yama(pContext)->Context, &NoDetection)
+        _mcgen_TEMPLATE_FOR_NoDetection(&_mcgen_CheckContextType_YAMA(pContext)->Context, &NoDetection)
 
 // This macro is for use by MC-generated code and should not be used directly.
 #define _mcgen_TEMPLATE_FOR_NoDetection _mcgen_PASTE2(McTemplateU0_, MCGEN_EVENTWRITETRANSFER)
@@ -897,8 +897,8 @@ _mcgen_CheckContextType_Yama(_In_ McGenContext_Yama* pContext)
 //
 // Enablement check macro for event "DetectsMalware"
 //
-#define EventEnabledDetectsMalware() _mcgen_EVENT_BIT_SET(YamaEnableBits, 1)
-#define EventEnabledDetectsMalware_ForContext(pContext) _mcgen_EVENT_BIT_SET(_mcgen_CheckContextType_Yama(pContext)->EnableBits, 1)
+#define EventEnabledDetectsMalware() _mcgen_EVENT_BIT_SET(YAMAEnableBits, 1)
+#define EventEnabledDetectsMalware_ForContext(pContext) _mcgen_EVENT_BIT_SET(_mcgen_CheckContextType_YAMA(pContext)->EnableBits, 1)
 
 //
 // Event write macros for event "DetectsMalware"
@@ -912,7 +912,7 @@ _mcgen_CheckContextType_Yama(_In_ McGenContext_Yama* pContext)
         MCGEN_EVENT_ENABLED_FORCONTEXT(pContext, DetectsMalware) \
         ? _mcgen_TEMPLATE_FOR_DetectsMalware(&(pContext)->Context, &DetectsMalware) : 0
 #define EventWriteDetectsMalware_ForContextAssumeEnabled(pContext) \
-        _mcgen_TEMPLATE_FOR_DetectsMalware(&_mcgen_CheckContextType_Yama(pContext)->Context, &DetectsMalware)
+        _mcgen_TEMPLATE_FOR_DetectsMalware(&_mcgen_CheckContextType_YAMA(pContext)->Context, &DetectsMalware)
 
 // This macro is for use by MC-generated code and should not be used directly.
 #define _mcgen_TEMPLATE_FOR_DetectsMalware _mcgen_PASTE2(McTemplateU0_, MCGEN_EVENTWRITETRANSFER)
@@ -920,8 +920,8 @@ _mcgen_CheckContextType_Yama(_In_ McGenContext_Yama* pContext)
 //
 // Enablement check macro for event "ConfigurationError"
 //
-#define EventEnabledConfigurationError() _mcgen_EVENT_BIT_SET(YamaEnableBits, 2)
-#define EventEnabledConfigurationError_ForContext(pContext) _mcgen_EVENT_BIT_SET(_mcgen_CheckContextType_Yama(pContext)->EnableBits, 2)
+#define EventEnabledConfigurationError() _mcgen_EVENT_BIT_SET(YAMAEnableBits, 2)
+#define EventEnabledConfigurationError_ForContext(pContext) _mcgen_EVENT_BIT_SET(_mcgen_CheckContextType_YAMA(pContext)->EnableBits, 2)
 
 //
 // Event write macros for event "ConfigurationError"
@@ -935,7 +935,7 @@ _mcgen_CheckContextType_Yama(_In_ McGenContext_Yama* pContext)
         MCGEN_EVENT_ENABLED_FORCONTEXT(pContext, ConfigurationError) \
         ? _mcgen_TEMPLATE_FOR_ConfigurationError(&(pContext)->Context, &ConfigurationError, Exception) : 0
 #define EventWriteConfigurationError_ForContextAssumeEnabled(pContext, Exception) \
-        _mcgen_TEMPLATE_FOR_ConfigurationError(&_mcgen_CheckContextType_Yama(pContext)->Context, &ConfigurationError, Exception)
+        _mcgen_TEMPLATE_FOR_ConfigurationError(&_mcgen_CheckContextType_YAMA(pContext)->Context, &ConfigurationError, Exception)
 
 // This macro is for use by MC-generated code and should not be used directly.
 #define _mcgen_TEMPLATE_FOR_ConfigurationError _mcgen_PASTE2(McTemplateU0z_, MCGEN_EVENTWRITETRANSFER)
@@ -943,8 +943,8 @@ _mcgen_CheckContextType_Yama(_In_ McGenContext_Yama* pContext)
 //
 // Enablement check macro for event "ProcessUnhandledException"
 //
-#define EventEnabledProcessUnhandledException() _mcgen_EVENT_BIT_SET(YamaEnableBits, 2)
-#define EventEnabledProcessUnhandledException_ForContext(pContext) _mcgen_EVENT_BIT_SET(_mcgen_CheckContextType_Yama(pContext)->EnableBits, 2)
+#define EventEnabledProcessUnhandledException() _mcgen_EVENT_BIT_SET(YAMAEnableBits, 2)
+#define EventEnabledProcessUnhandledException_ForContext(pContext) _mcgen_EVENT_BIT_SET(_mcgen_CheckContextType_YAMA(pContext)->EnableBits, 2)
 
 //
 // Event write macros for event "ProcessUnhandledException"
@@ -958,7 +958,7 @@ _mcgen_CheckContextType_Yama(_In_ McGenContext_Yama* pContext)
         MCGEN_EVENT_ENABLED_FORCONTEXT(pContext, ProcessUnhandledException) \
         ? _mcgen_TEMPLATE_FOR_ProcessUnhandledException(&(pContext)->Context, &ProcessUnhandledException, Exception) : 0
 #define EventWriteProcessUnhandledException_ForContextAssumeEnabled(pContext, Exception) \
-        _mcgen_TEMPLATE_FOR_ProcessUnhandledException(&_mcgen_CheckContextType_Yama(pContext)->Context, &ProcessUnhandledException, Exception)
+        _mcgen_TEMPLATE_FOR_ProcessUnhandledException(&_mcgen_CheckContextType_YAMA(pContext)->Context, &ProcessUnhandledException, Exception)
 
 // This macro is for use by MC-generated code and should not be used directly.
 #define _mcgen_TEMPLATE_FOR_ProcessUnhandledException _mcgen_PASTE2(McTemplateU0z_, MCGEN_EVENTWRITETRANSFER)

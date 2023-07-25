@@ -166,7 +166,7 @@ int main(int argc, char* argv[]) {
     // register eventlog
     if (context->canRecordEventlog) { 
         LOGTRACE("Enabled Eventlog logging.");
-        EventRegisterYama(); 
+        EventRegisterYAMA(); 
     }
 
     std::vector<DWORD> vPids;
@@ -247,7 +247,7 @@ int main(int argc, char* argv[]) {
     // write eventlog and unregister eventlog
     if (context->canRecordEventlog) { 
         EventWriteProcessStopped(); 
-        EventUnregisterYama();
+        EventUnregisterYAMA();
     }
 
     return 0;
