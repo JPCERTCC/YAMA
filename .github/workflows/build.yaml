@@ -94,11 +94,6 @@ jobs:
 
     - name: Build YAMA Scanner
       run: |
-        if ("${{ steps.cache-build.outputs.cache-hit }}" -eq 'true') {
-          Write-Host "Using .ccache directory. Start build process."
-        } else {
-          Write-Host "No cache. Start build process."
-        }
         ./build.bat
       shell: powershell
 
