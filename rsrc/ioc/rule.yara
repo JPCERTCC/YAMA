@@ -49,7 +49,7 @@ rule APT10_redleaves_dropper2 {
      strings:
         $v1a = ".exe"
         $v1b = ".dll"
-        $v1c = ".dat"
+        $v1c = ".com"
         $c2a = {B8 CD CC CC CC F7 E1 C1 EA 03}
         $c2b = {68 80 00 00 00 6A 01 6A 01 6A 01 6A 01 6A FF 50}
      condition:
