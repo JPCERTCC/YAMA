@@ -111,4 +111,3 @@ jobs:
       with:
         name: ${{ matrix.config.pe }}
         path: .\build\Yama.exe
-        
