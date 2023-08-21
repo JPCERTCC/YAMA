@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "main"
+      - "testing-APT10_ANEL_InitRoutine"
     paths:
       - "dependencies/**"
       - "src/**"
