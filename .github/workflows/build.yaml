@@ -36,7 +36,7 @@ jobs:
           }
     steps:
     - name: Check out repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 1
         submodules: 'recursive'
@@ -56,12 +56,12 @@ jobs:
       with:
         path: |
           C:/Program Files/LLVM
-        key: llvm-15.0.7
+        key: llvm-16.0.0
     
     - name: Install LLVM and Clang
       uses: KyleMayes/install-llvm-action@v1
       with:
-        version: "15.0.7"
+        version: "16.0.0"
         cached: ${{ steps.cache-llvm.outputs.cache-hit }}
 
     # - name: Cache Eventlog manifest
