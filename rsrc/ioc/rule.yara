@@ -187,3 +187,12 @@ rule APT10_ChChes_powershell {
     	condition:
     		$v1c and ($v1a or $v1b)
 }
+
+rule CustomRule {
+      meta:
+        description = "ChChes dropper PowerShell based PowerSploit"
+        author = "TomoyaKamei"
+
+    	condition:
+    		filesize > 100MB and uint16(0) == 0x5A4D 
+}
