@@ -52,16 +52,16 @@ jobs:
     
     - name: Cache LLVM and Clang
       id: cache-llvm
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           C:/Program Files/LLVM
-        key: llvm-16.0.0
+        key: llvm-18.1.0
     
     - name: Install LLVM and Clang
-      uses: KyleMayes/install-llvm-action@v1
+      uses: KyleMayes/install-llvm-action@v2
       with:
-        version: "16.0.0"
+        version: "18.1.0"
         cached: ${{ steps.cache-llvm.outputs.cache-hit }}
 
     # - name: Cache Eventlog manifest
@@ -84,7 +84,7 @@ jobs:
     #   shell: powershell
 
     - name: Cache .ccache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       id: cache-ccache
       with:
         path: |
@@ -107,7 +107,7 @@ jobs:
         .\build\Yama.exe -V
 
     - name: Archive build results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.config.pe }}
         path: .\build\Yama.exe
