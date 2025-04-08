@@ -11,6 +11,9 @@ void YamaScanner::ScanPidList() {
     for (DWORD dwPid : *this->PidList) {
         LOGTRACE("now scanning pid: {}", dwPid);
         Process* proc = new Process(dwPid);
+        if (proc->pPeb == nullptr || proc->pPeb->GetPEB() == nullptr) {
+            continue;
+        }
         yrResult = this->ScanProcessMemory(proc);
         if (yrResult->result) {
             LOGINFO("YARA MATCH: pid={}, process_name={}", proc->pid, WideCharToUtf8(proc->wcProcessName));

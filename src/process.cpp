@@ -52,7 +52,7 @@ Peb::Peb(HANDLE hProcess) {
     if (!ReadProcessMemory(hProcess, pPBI->PebBaseAddress, this->pPEB, sizeof(nt64::PEB), NULL)) {
         DWORD err = GetLastError();
         this->pPEB = nullptr;
-        LOGERROR("Failed to get address of PEB. error_code: %lu", err);
+        LOGTRACE("Failed to get address of PEB. error_code: {}", err);
         return;
     }
 
@@ -120,6 +120,10 @@ Process::Process(DWORD pid) {
 
     // PEB
     this->pPeb = new Peb(hProcess);
+    if (this->pPeb->GetPEB() == nullptr) {
+        LOGERROR("Failed to read PEB for process {}. Skip scanning.", this->pid);
+        return;
+    }
 
     // Set Process Name
     this->wcProcessName = (wchar_t*)calloc(MAX_PATH, sizeof(wchar_t));

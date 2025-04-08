@@ -31,6 +31,7 @@ class Peb {
     void SetProcessParam();
     std::map<uint64_t, LdrEntry*> mapLoadedModules;
     std::vector<uint64_t> GetHeapAddressList();
+    nt64::PEB* GetPEB() const { return pPEB; }
 
    private:
     HANDLE hProcess = INVALID_HANDLE_VALUE;
